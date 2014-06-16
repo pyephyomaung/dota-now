@@ -1,0 +1,21 @@
+<ons-page class="center">
+    <div ng-controller="Page_MarchesCtrl">
+         <ons-list>
+            <ons-list-item ng-repeat="team in teams" ng-click="next($index)">
+            	<div>
+            		<div style="display: inline-block; width: 45%; text-align: left">
+            			<img src="{{team[0].flag}}" style="width: 50px; vertical-align: middle"/>
+            			<span style="vertical-align: middle">{{team[0].name}}</span>
+            		</div>
+            		<div style="display: inline-block; width: 5%; text-align: center">
+            			<span style="vertical-align: middle">vs</span>
+            		</div>
+            		<div style="display: inline-block; width: 45%; text-align: right">
+            			<span style="vertical-align: middle">{{team[1].name}}</span>
+            			<img src="{{team[1].flag}}" style="width: 50px; vertical-align: middle"/>
+            		</div>
+            	</div>
+            </ons-list-item>
+        </ons-list>
+    </div>
+</ons-page>
