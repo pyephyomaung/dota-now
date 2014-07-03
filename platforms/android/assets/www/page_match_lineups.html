@@ -1,2 +1,17 @@
 <ons-navigator title="Lineups" hide-toolbar="true">
+	<div ng-controller="Page_Match_LineupsCtrl">
+		<ons-list>
+            <ons-list-item ng-repeat="lineup in lineups1" ng-click="next($index)">
+            	<div>
+            		<div style="display: inline-block; width: 45%; text-align: left">
+            			<span style="vertical-align: middle">{{lineup}}</span>
+            		</div>
+            		<div style="display: inline-block; width: 45%; text-align: right">
+            			<span style="vertical-align: middle">{{lineups2[$index]}}</span>
+            			<span class="phoca-flag cn" style="width: 50px"></span>
+            		</div>
+            	</div>
+            </ons-list-item>
+        </ons-list>
+	</div>
 </ons-navigator>

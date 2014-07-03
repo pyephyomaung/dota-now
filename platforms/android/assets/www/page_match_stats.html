@@ -1,2 +1,21 @@
 <ons-navigator title="Match Stats" hide-toolbar="true">
+	<div ng-controller="Page_Match_StatsCtrl">
+            <ons-list>
+                  <ons-list-item class="topcoat-list__item__line-height">
+                        <div>Game mode: {{mods[matchDetails.result.game_mode].name}}</div>
+                  </ons-list-item>
+                  <ons-list-item class="topcoat-list__item__line-height">
+                        <div>Start time: {{matchDetails.result.start_time | date: 'medium'}}</div>
+                  </ons-list-item>
+                  <ons-list-item>
+                        <div>Lobby type: {{lobbies[matchDetails.result.lobby_type].name}}</div>
+                  </ons-list-item>
+                  <ons-list-item>
+                        <div>Duration: {{toHHmmss(matchDetails.result.duration)}}</div>
+                  </ons-list-item>
+                  <ons-list-item>
+                        <div>First blood time: {{toHHmmss(matchDetails.result.first_blood_time)}}</div>
+                  </ons-list-item>
+            </ons-list> 
+	</div>
 </ons-navigator>
