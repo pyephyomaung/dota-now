@@ -77,7 +77,6 @@ app.controller('Page_MatchCtrl', function($scope, $http, Data) {
             //alert(JSON.stringify(data));
             Data.matchDetails = data;
             $scope.isLoading = false;
-            $scope.ons.navigator.resetToPage('page_marches.html');
         }).
         error(function(data, status, headers, config) {
             alert("Error getting match detail");

@@ -51,4 +51,4 @@ Thumbs.db
 .Trashes
 
 # anything in platform folder
-platforms/*
+platforms/
