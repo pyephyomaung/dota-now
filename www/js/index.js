@@ -67,28 +67,28 @@ app.controller('Page_MarchesCtrl', function($scope, Data) {
 });
 
 app.controller('Page_MatchCtrl', function($scope, $http, Data) {
-    $scope.match = Data.tournments[Data.tournmentIndex].teams[Data.matchIndex];
-    // getMatchDetails($http, '117762656', function (r) {
-    //     if (r != null) {
-    //         $scope.matchDetails = JSON.stringify(r);
-    //     } else {
-    //         console.log("Error getting match details");
-    //     }
-    // });
+    $scope.isLoading = true;
+
     var matchId = '117762656';
-    var url = constants.URL_GetMatchDetails + '117762656';
+    var url = constants.URL_GetMatchDetails + matchId;
     Data.matchDetails = null;
     $http.get(url).
         success(function(data, status, headers, config) {
             //alert(JSON.stringify(data));
             Data.matchDetails = data;
+            $scope.isLoading = false;
         }).
         error(function(data, status, headers, config) {
-            alert("error");
+            alert("Error getting match detail");
         });
 });
 
+app.controller('Page_Match_TimelineCtrl', function($scope, Data) {
+    $scope.match = Data.tournments[Data.tournmentIndex].teams[Data.matchIndex];
+});
+
 app.controller('Page_Match_StatsCtrl', function($scope, $http, Data) {
+    $scope.match = Data.tournments[Data.tournmentIndex].teams[Data.matchIndex];
     $scope.lobbies = Data.lobbies;
     $scope.mods = Data.mods;
     $scope.toHHmmss = toHHmmss;
@@ -98,6 +98,7 @@ app.controller('Page_Match_StatsCtrl', function($scope, $http, Data) {
 });
 
 app.controller('Page_Match_LineupsCtrl', function($scope, Data) {
+    $scope.match = Data.tournments[Data.tournmentIndex].teams[Data.matchIndex];
     $scope.lineups1 = Data.tournments[Data.tournmentIndex].teams[Data.matchIndex][0].lineups;
     $scope.lineups2 = Data.tournments[Data.tournmentIndex].teams[Data.matchIndex][1].lineups;
 });

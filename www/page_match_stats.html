@@ -1,21 +1,38 @@
 <ons-navigator title="Match Stats" hide-toolbar="true">
 	<div ng-controller="Page_Match_StatsCtrl">
+        <div>
             <ons-list>
-                  <ons-list-item>
-                        <div>Game mode: {{mods[matchDetails.result.game_mode].name}}</div>
-                  </ons-list-item>
-                  <ons-list-item>
-                        <div>Start time: {{matchDetails.result.start_time | date: 'medium'}}</div>
-                  </ons-list-item>
-                  <ons-list-item>
-                        <div>Lobby type: {{lobbies[matchDetails.result.lobby_type].name}}</div>
-                  </ons-list-item>
-                  <ons-list-item>
-                        <div>Duration: {{toHHmmss(matchDetails.result.duration)}}</div>
-                  </ons-list-item>
-                  <ons-list-item>
-                        <div>First blood time: {{toHHmmss(matchDetails.result.first_blood_time)}}</div>
-                  </ons-list-item>
-            </ons-list> 
+                <ons-list-item>
+                    <div ng-model="match">
+                        <div style="display: inline-block; width: 45%; text-align: left">
+                            <img src="{{match[0].flag}}" style="width: 50px; vertical-align: middle"/>
+                            <span style="vertical-align: middle">{{match[0].name}}</span>
+                        </div>
+                        <div style="display: inline-block; width: 5%; text-align: center">
+                            <span style="vertical-align: middle">vs</span>
+                        </div>
+                        <div style="display: inline-block; width: 45%; text-align: right">
+                            <span style="vertical-align: middle">{{match[1].name}}</span>
+                            <img src="{{match[1].flag}}" style="width: 50px; vertical-align: middle"/>
+                        </div>
+                    </div>
+                </ons-list-item>
+                <ons-list-item>
+                    <div>Game mode: {{mods[matchDetails.result.game_mode].name}}</div>
+                </ons-list-item>
+                <ons-list-item>
+                    <div>Start time: {{matchDetails.result.start_time | date: 'medium'}}</div>
+                </ons-list-item>
+                <ons-list-item>
+                    <div>Lobby type: {{lobbies[matchDetails.result.lobby_type].name}}</div>
+                </ons-list-item>
+                <ons-list-item>
+                    <div>Duration: {{toHHmmss(matchDetails.result.duration)}}</div>
+                </ons-list-item>
+                <ons-list-item>
+                    <div>First blood time: {{toHHmmss(matchDetails.result.first_blood_time)}}</div>
+                </ons-list-item>
+        </ons-list> 
+        </div>
 	</div>
 </ons-navigator>
