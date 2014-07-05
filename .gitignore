@@ -52,3 +52,5 @@ Thumbs.db
 
 # anything in platform folder
 platforms/
+
+.cordova

@@ -1,45 +1,74 @@
 <ons-navigator title="Lineups" hide-toolbar="true">
-      <div ng-controller="Page_Match_LineupsCtrl">
-            <div ng-model="match">
-                  <div style="display: inline-block; width: 45%; text-align: left">
-                        <img src="{{match[0].flag}}" style="width: 50px; vertical-align: middle"/>
-                        <span style="vertical-align: middle">{{match[0].name}}</span>
-                  </div>
-                  <div style="display: inline-block; width: 5%; text-align: center">
-                        <span style="vertical-align: middle">vs</span>
-                  </div>
-                  <div style="display: inline-block; width: 45%; text-align: right">
-                        <span style="vertical-align: middle">{{match[1].name}}</span>
-                        <img src="{{match[1].flag}}" style="width: 50px; vertical-align: middle"/>
-                  </div>
+    <div ng-controller="Page_Match_LineupsCtrl">
+        <div ng-model="match">
+            <div style="display: inline-block; width: 45%; text-align: left">
+                <img src="{{match[0].flag}}" style="width: 50px; vertical-align: middle"/>
+                <span style="vertical-align: middle">{{match[0].name}}</span>
             </div>
-            <ons-list>
-                  <ons-list-item>
-                        <div ng-model="match">
-                              <div style="display: inline-block; width: 45%; text-align: left">
-                                    <img src="{{match[0].flag}}" style="width: 50px; vertical-align: middle"/>
-                              <span style="vertical-align: middle">{{match[0].name}}</span>
-                        </div>
-                        <div style="display: inline-block; width: 5%; text-align: center">
-                            <span style="vertical-align: middle">vs</span>
-                        </div>
-                        <div style="display: inline-block; width: 45%; text-align: right">
-                            <span style="vertical-align: middle">{{match[1].name}}</span>
-                            <img src="{{match[1].flag}}" style="width: 50px; vertical-align: middle"/>
+            <div style="display: inline-block; width: 5%; text-align: center">
+                <span style="vertical-align: middle">vs</span>
+            </div>
+            <div style="display: inline-block; width: 45%; text-align: right">
+                <span style="vertical-align: middle">{{match[1].name}}</span>
+                <img src="{{match[1].flag}}" style="width: 50px; vertical-align: middle"/>
+            </div>
+        </div>
+
+        <ons-scroller>
+            <!-- items -->
+            <div class="card">
+                <h3>Items</h3>
+                <div>
+                    <div style="float: left; width: 49%; text-align: right">
+                        <div ng-repeat="player in radiantPlayers">
+                            <div style="float: right"><img src="{{getHeroImageUrl(player.hero_id)}}"></div>
+                            <div style="float: right">
+                                <img ng-hide="{{player.item_0 == 0}}" src="{{getItemImageUrl(player.item_0)}}">
+                                <img ng-hide="{{player.item_1 == 0}}" src="{{getItemImageUrl(player.item_1)}}">
+                                <img ng-hide="{{player.item_2 == 0}}" src="{{getItemImageUrl(player.item_2)}}">
+                                <img ng-hide="{{player.item_3 == 0}}" src="{{getItemImageUrl(player.item_3)}}">
+                                <img ng-hide="{{player.item_4 == 0}}" src="{{getItemImageUrl(player.item_4)}}">
+                                <img ng-hide="{{player.item_5 == 0}}" src="{{getItemImageUrl(player.item_5)}}">
+                            </div>
                         </div>
                     </div>
-                  </ons-list-item>
-                  <ons-list-item ng-repeat="lineup in lineups1" ng-click="next($index)">
-            	     <div>
-                              <div style="display: inline-block; width: 45%; text-align: left">
-                                    <span style="vertical-align: middle">{{lineup}}</span>
-                              </div>
-                              <div style="display: inline-block; width: 45%; text-align: right">
-                                    <span style="vertical-align: middle">{{lineups2[$index]}}</span>
-            			   <span class="phoca-flag cn" style="width: 50px"></span>
-                              </div>
+                    <div style="float: right; width: 49%; text-align: left">
+                        <div ng-repeat="player in direPlayers">
+                            <img src="{{getHeroImageUrl(player.hero_id)}}">
+                            <img ng-hide="{{player.item_0 == 0}}" src="{{getItemImageUrl(player.item_0)}}">
+                            <img ng-hide="{{player.item_1 == 0}}" src="{{getItemImageUrl(player.item_1)}}">
+                            <img ng-hide="{{player.item_2 == 0}}" src="{{getItemImageUrl(player.item_2)}}">
+                            <img ng-hide="{{player.item_3 == 0}}" src="{{getItemImageUrl(player.item_3)}}">
+                            <img ng-hide="{{player.item_4 == 0}}" src="{{getItemImageUrl(player.item_4)}}">
+                            <img ng-hide="{{player.item_5 == 0}}" src="{{getItemImageUrl(player.item_5)}}">
                         </div>
-                  </ons-list-item>
-            </ons-list>
-	</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Picks and Bans</h3>
+                <div style="float: left; width: 49%; text-align: right">
+                    <div ng-repeat="pickban in radiantPicksBans">
+                        <img 
+                        style="visibility: {{pickban.is_pick? 'hidden' : 'visible'}}"
+                        src="{{getHeroImageUrl(pickban.hero_id)}}">
+                        <img 
+                        style="visibility: {{pickban.is_pick? 'visible' : 'hidden'}}"
+                        src="{{getHeroImageUrl(pickban.hero_id)}}">
+                    </div>
+                </div>
+                <div style="float: right; width: 49%; text-align: left">
+                    <div ng-repeat="pickban in direPicksBans">
+                        <img 
+                        style="visibility: {{pickban.is_pick? 'hidden' : 'visible'}}"
+                        src="{{getHeroImageUrl(pickban.hero_id)}}">
+                        <img 
+                        style="visibility: {{pickban.is_pick? 'visible' : 'hidden'}}"
+                        src="{{getHeroImageUrl(pickban.hero_id)}}">
+                    </div>
+                </div>
+            </div>
+        </ons-scroller>
+    </div>    
 </ons-navigator>

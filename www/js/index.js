@@ -1,8 +1,3 @@
-var constants = {
-    'STEAM_API_KEY': '59075AC07E0A6BC19847673DBC2B2802',
-    'URL_GetMatchDetails': 'http://www.corsproxy.com/api.steampowered.com/IDOTA2Match_570/GetMatchDetails/V001/?key=59075AC07E0A6BC19847673DBC2B2802&match_id='
-};
-
 function loadData() {
     console.log("loading data...");
     $.getJSON("data/abilities.json", function(r) { contextHelper.abilities = r.abilities; });
@@ -24,7 +19,7 @@ document.addEventListener('deviceready', function() {
     console.log("bootstrapping angular app");
     angular.bootstrap(document, ['dotaNow']);
 }, false);
-
+ 
 app.factory('Data', function() {
     var Data = {};
     Data.tournments = getTournments();
@@ -35,6 +30,19 @@ app.factory('Data', function() {
     Data.mods = null;
     Data.regions = null;
     Data.currentMatch = null;
+
+    // constants
+    Data.STEAM_API_KEY = '59075AC07E0A6BC19847673DBC2B2802';
+    Data.URL_GET_MATCH_DETAILS = 'http://www.corsproxy.com/api.steampowered.com/IDOTA2Match_570/GetMatchDetails/V001/?key=' + Data.STEAM_API_KEY + '&match_id=';
+    Data.URL_HERO_IMAGE = 'http://media.steampowered.com/apps/dota2/images/heroes/';
+    Data.URL_ITEM_IMAGE = 'http://media.steampowered.com/apps/dota2/images/items/';
+    
+    // url getters
+    Data.getMatchDetailsUrl = function (matchId) { return Data.URL_GET_MATCH_DETAILS + matchId; };
+    Data.getHeroImageUrl = function (heroId) { return Data.URL_HERO_IMAGE + _.find(Data.heroes, {id: heroId}).name + '_eg.png'; };
+    Data.getItemImageUrl = function (itemId) { return Data.URL_ITEM_IMAGE + _.find(Data.items, {id: itemId}).name + '_eg.png'; };
+
+    Data.isRadiant = function (player) { return (player != null && player.player_slot <= 4); };
 
     $.getJSON("data/abilities.json", function(r) { console.log("loading abilities.json"); Data.abilities = r.abilities; });
     $.getJSON("data/heroes.json", function(r) { console.log("loading heroes.json"); Data.heroes = r.heroes; });
@@ -70,7 +78,7 @@ app.controller('Page_MatchCtrl', function($scope, $http, Data) {
     $scope.isLoading = true;
 
     var matchId = '117762656';
-    var url = constants.URL_GetMatchDetails + matchId;
+    var url = Data.getMatchDetailsUrl(matchId);
     Data.matchDetails = null;
     $http.get(url).
         success(function(data, status, headers, config) {
@@ -99,8 +107,28 @@ app.controller('Page_Match_StatsCtrl', function($scope, $http, Data) {
 
 app.controller('Page_Match_LineupsCtrl', function($scope, Data) {
     $scope.match = Data.tournments[Data.tournmentIndex].teams[Data.matchIndex];
-    $scope.lineups1 = Data.tournments[Data.tournmentIndex].teams[Data.matchIndex][0].lineups;
-    $scope.lineups2 = Data.tournments[Data.tournmentIndex].teams[Data.matchIndex][1].lineups;
+    $scope.getHeroImageUrl = Data.getHeroImageUrl;
+    $scope.getItemImageUrl = Data.getItemImageUrl;
+    $scope.isRadiant = Data.isRadiant;
+    $scope.$watch(function () { return Data.matchDetails; }, function (value) {
+        $scope.matchDetails = value;
+        if (value != null) {
+            $scope.radiantPlayers = _.filter(value.result.players, function (x) {return Data.isRadiant(x)});
+            $scope.direPlayers = _.filter(value.result.players, function (x) {return !Data.isRadiant(x)});
+            $scope.radiantPicks = _.sortBy(_.filter(value.result.picks_bans, {is_pick: true, team: 0}), 'order');
+            $scope.radiantBans = _.sortBy(_.filter(value.result.picks_bans, {is_pick: false, team: 0}), 'order');
+            $scope.direPicks = _.sortBy(_.filter(value.result.picks_bans, {is_pick: true, team: 1}), 'order');
+            $scope.direBans = _.sortBy(_.filter(value.result.picks_bans, {is_pick: false, team: 1}), 'order');
+            $scope.radiantPicksBans = _.sortBy(_.filter(value.result.picks_bans, {team: 0}), 'order');
+            $scope.direPicksBans = _.sortBy(_.filter(value.result.picks_bans, {team: 1}), 'order');
+        }
+    });
+
+    $scope.photos = [
+    {id: 'p1', 'title': 'A nice day!', src: "http://lorempixel.com/300/400/"},
+    {id: 'p2', 'title': 'Puh!', src: "http://lorempixel.com/300/400/sports"},
+    {id: 'p3', 'title': 'What a club!', src: "http://lorempixel.com/300/400/nightlife"}
+]; 
 });
 
 function getTournments() {
@@ -120,15 +148,6 @@ function getTournments() {
         ]
     });
     return rtn;
-}
-
-function getMatchDetails($http, matchId, callbackFn) {
-    var url = constants.URL_GetMatchDetails + matchId;
-    $.getJSON(url, function(r) {
-        callbackFn(r);
-    }).fail (function () {
-        callbackFn(null);
-    });
 }
 
 function toHHmmss(minute_num) {
