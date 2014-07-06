@@ -17,25 +17,69 @@
 
             <div class="card">
                 <h3>Game info</h3>
-                <div style="text-align: left">
-                    <div style="width: 35%; display: inline-block">Game mode:</div>
-                    <div style="display: inline-block">{{mods[matchDetails.result.game_mode].name}}</div>
+                <div>
+                    <div style="text-align: left">
+                        <div style="width: 35%; display: inline-block">Game mode:</div>
+                        <div style="display: inline-block">{{mods[matchDetails.result.game_mode].name}}</div>
+                    </div>
+                    <div style="text-align: left">
+                        <div style="width: 35%; display: inline-block">Start time:</div>
+                        <div style="display: inline-block">{{matchDetails.result.start_time | date: 'medium'}}</div>
+                    </div>
+                    <div style="text-align: left">
+                        <div style="width: 35%; display: inline-block">Lobby type:</div>
+                        <div style="display: inline-block">{{lobbies[matchDetails.result.lobby_type].name}}</div>
+                    </div>
+                     <div style="text-align: left">
+                        <div style="width: 35%; display: inline-block">Duration:</div>
+                        <div style="display: inline-block">{{toHHmmss(matchDetails.result.duration)}}</div>
+                    </div>
+                    <div style="text-align: left">
+                        <div style="width: 35%; display: inline-block">First blood time:</div>
+                        <div style="display: inline-block">{{toHHmmss(matchDetails.result.first_blood_time)}}</div>
+                    </div>
                 </div>
-                <div style="text-align: left">
-                    <div style="width: 35%; display: inline-block">Start time:</div>
-                    <div style="display: inline-block">{{matchDetails.result.start_time | date: 'medium'}}</div>
+            </div>
+
+            <div class="card">
+                <h3>GPM</h3>
+                <div>
+                    <div style="float: left; width: 49%">
+                        <div 
+                            d3-bars 
+                            data="radiantPlayers" 
+                            bind-property="gold_per_min"
+                            right-to-left="true">
+                        </div>
+                    </div>
+                    <div style="float: right; width: 49%">
+                        <div 
+                            d3-bars 
+                            data="direPlayers" 
+                            bind-property="gold_per_min">
+                        </div>
+                    </div>
                 </div>
-                <div style="text-align: left">
-                    <div style="width: 35%; display: inline-block">Lobby type:</div>
-                    <div style="display: inline-block">{{lobbies[matchDetails.result.lobby_type].name}}</div>
-                </div>
-                 <div style="text-align: left">
-                    <div style="width: 35%; display: inline-block">Duration:</div>
-                    <div style="display: inline-block">{{toHHmmss(matchDetails.result.duration)}}</div>
-                </div>
-                <div style="text-align: left">
-                    <div style="width: 35%; display: inline-block">First blood time:</div>
-                    <div style="display: inline-block">{{toHHmmss(matchDetails.result.first_blood_time)}}</div>
+            </div>
+
+            <div class="card">
+                <h3>XPM</h3>
+                <div>
+                    <div style="float: left; width: 49%">
+                        <div 
+                            d3-bars 
+                            data="radiantPlayers" 
+                            bind-property="xp_per_min"
+                            right-to-left="true">
+                        </div>
+                    </div>
+                    <div style="float: right; width: 49%">
+                        <div 
+                            d3-bars 
+                            data="direPlayers" 
+                            bind-property="xp_per_min">
+                        </div>
+                    </div>
                 </div>
             </div>
         </ons-scroller>

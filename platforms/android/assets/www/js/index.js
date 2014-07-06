@@ -9,7 +9,7 @@ function loadData() {
 }
 
 // ANGULAR APP
-var app = angular.module('dotaNow', ['onsen.directives', 'ngTouch']);
+var app = angular.module('dotaNow', ['onsen.directives', 'ngTouch', 'd3Angular']);
 app.config(['$httpProvider', function($httpProvider) {
     $httpProvider.defaults.useXDomain = true;
     delete $httpProvider.defaults.headers.common['X-Requested-With'];
@@ -100,8 +100,13 @@ app.controller('Page_Match_StatsCtrl', function($scope, $http, Data) {
     $scope.lobbies = Data.lobbies;
     $scope.mods = Data.mods;
     $scope.toHHmmss = toHHmmss;
+    $scope.getHeroImageUrl = Data.getHeroImageUrl;
     $scope.$watch(function () { return Data.matchDetails; }, function (value) {
         $scope.matchDetails = value;
+        if (value != null) {
+            $scope.radiantPlayers = _.filter(value.result.players, function (x) {return Data.isRadiant(x)});
+            $scope.direPlayers = _.filter(value.result.players, function (x) {return !Data.isRadiant(x)});
+        }
     });
 });
 
@@ -115,10 +120,6 @@ app.controller('Page_Match_LineupsCtrl', function($scope, Data) {
         if (value != null) {
             $scope.radiantPlayers = _.filter(value.result.players, function (x) {return Data.isRadiant(x)});
             $scope.direPlayers = _.filter(value.result.players, function (x) {return !Data.isRadiant(x)});
-            $scope.radiantPicks = _.sortBy(_.filter(value.result.picks_bans, {is_pick: true, team: 0}), 'order');
-            $scope.radiantBans = _.sortBy(_.filter(value.result.picks_bans, {is_pick: false, team: 0}), 'order');
-            $scope.direPicks = _.sortBy(_.filter(value.result.picks_bans, {is_pick: true, team: 1}), 'order');
-            $scope.direBans = _.sortBy(_.filter(value.result.picks_bans, {is_pick: false, team: 1}), 'order');
             $scope.radiantPicksBans = _.sortBy(_.filter(value.result.picks_bans, {team: 0}), 'order');
             $scope.direPicksBans = _.sortBy(_.filter(value.result.picks_bans, {team: 1}), 'order');
         }
