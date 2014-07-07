@@ -24,7 +24,7 @@
                     </div>
                     <div style="text-align: left">
                         <div style="width: 35%; display: inline-block">Start time:</div>
-                        <div style="display: inline-block">{{matchDetails.result.start_time | date: 'medium'}}</div>
+                        <div style="display: inline-block">{{matchDetails.result.start_time * 1000 | date: 'medium'}}</div>
                     </div>
                     <div style="text-align: left">
                         <div style="width: 35%; display: inline-block">Lobby type:</div>
@@ -78,6 +78,30 @@
                             d3-bars 
                             data="direPlayers" 
                             bind-property="xp_per_min">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <h3>K / D / A</h3>
+                <div>
+                    <div style="float: left; width: 49%">
+                        <div 
+                            d3-bars-three
+                            data="radiantPlayers" 
+                            bind-property1="kills"
+                            bind-property2="deaths"
+                            bind-property3="assists"
+                            right-to-left="true">
+                        </div>
+                    </div>
+                    <div style="float: right; width: 49%; color: black;">
+                        <div 
+                            d3-bars-three 
+                            data="direPlayers" 
+                            bind-property1="kills"
+                            bind-property2="deaths"
+                            bind-property3="assists">
                         </div>
                     </div>
                 </div>

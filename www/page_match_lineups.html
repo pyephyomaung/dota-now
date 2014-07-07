@@ -28,15 +28,28 @@
                     <img src="{{match[1].flag}}" style="width: 50px; vertical-align: middle"/>
                 </div>
             </div>
-            
+
             <!-- items -->
             <div class="card">
                 <h3>Items</h3>
                 <div>
                     <div style="float: left; width: 49%; text-align: right">
-                        <div ng-repeat="player in radiantPlayers">
-                            <div style="float: right"><img src="{{getHeroImageUrl(player.hero_id)}}"></div>
-                            <div style="float: right">
+                        <div ng-repeat="player in radiantPlayers" style="vertical-align: middle">
+                            <div style="display: inline-block; min-height: 40px; max-width: 110px">
+                                <img ng-hide="{{player.item_0 == 0}}" src="{{getItemImageUrl(player.item_0)}}">
+                                <img ng-hide="{{player.item_1 == 0}}" src="{{getItemImageUrl(player.item_1)}}">
+                                <img ng-hide="{{player.item_2 == 0}}" src="{{getItemImageUrl(player.item_2)}}">
+                                <img ng-hide="{{player.item_3 == 0}}" src="{{getItemImageUrl(player.item_3)}}">
+                                <img ng-hide="{{player.item_4 == 0}}" src="{{getItemImageUrl(player.item_4)}}">
+                                <img ng-hide="{{player.item_5 == 0}}" src="{{getItemImageUrl(player.item_5)}}">
+                            </div>
+                            <img src="{{getHeroImageUrl(player.hero_id)}}">
+                        </div>
+                    </div>
+                    <div style="float: right; width: 49%; text-align: left">
+                        <div ng-repeat="player in direPlayers">
+                            <img src="{{getHeroImageUrl(player.hero_id)}}">
+                            <div style="display: inline-block; min-height: 40px; max-width: 110px">
                                 <img ng-hide="{{player.item_0 == 0}}" src="{{getItemImageUrl(player.item_0)}}">
                                 <img ng-hide="{{player.item_1 == 0}}" src="{{getItemImageUrl(player.item_1)}}">
                                 <img ng-hide="{{player.item_2 == 0}}" src="{{getItemImageUrl(player.item_2)}}">
@@ -46,23 +59,15 @@
                             </div>
                         </div>
                     </div>
-                    <div style="float: right; width: 49%; text-align: left">
-                        <div ng-repeat="player in direPlayers">
-                            <img src="{{getHeroImageUrl(player.hero_id)}}">
-                            <img ng-hide="{{player.item_0 == 0}}" src="{{getItemImageUrl(player.item_0)}}">
-                            <img ng-hide="{{player.item_1 == 0}}" src="{{getItemImageUrl(player.item_1)}}">
-                            <img ng-hide="{{player.item_2 == 0}}" src="{{getItemImageUrl(player.item_2)}}">
-                            <img ng-hide="{{player.item_3 == 0}}" src="{{getItemImageUrl(player.item_3)}}">
-                            <img ng-hide="{{player.item_4 == 0}}" src="{{getItemImageUrl(player.item_4)}}">
-                            <img ng-hide="{{player.item_5 == 0}}" src="{{getItemImageUrl(player.item_5)}}">
-                        </div>
-                    </div>
                 </div>
             </div>
 
             <div class="card">
                 <h3>Picks and Bans</h3>
-                <div style="float: left; width: 49%; text-align: right">
+                <div style="float: left; width: 49%; text-align: middle">
+                    <div>
+                        <div>Bans - Picks</div>
+                    </div>
                     <div ng-repeat="pickban in radiantPicksBans">
                         <img 
                         style="visibility: {{pickban.is_pick? 'hidden' : 'visible'}}"
@@ -72,7 +77,10 @@
                         src="{{getHeroImageUrl(pickban.hero_id)}}">
                     </div>
                 </div>
-                <div style="float: right; width: 49%; text-align: left">
+                <div style="float: right; width: 49%; text-align: middle">
+                    <div>
+                        <div>Bans - Picks</div>
+                    </div>
                     <div ng-repeat="pickban in direPicksBans">
                         <img 
                         style="visibility: {{pickban.is_pick? 'hidden' : 'visible'}}"
@@ -81,6 +89,31 @@
                         style="visibility: {{pickban.is_pick? 'visible' : 'hidden'}}"
                         src="{{getHeroImageUrl(pickban.hero_id)}}">
                     </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Hero skills</h3>
+                <div>
+                    <div class="col-xs-3"> <!-- required for floating -->
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs tabs-left">
+                            <li ng-repeat="player in radiantPlayers">
+                                <a href="#heroId{{player.hero_id}}" data-toggle="tab">
+                                    <img src="{{getHeroImageUrl(player.hero_id)}}">
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="col-xs-9">
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div class="tab-pane" id="heroId{{player.hero_id}}" ng-repeat="player in radiantPlayers">
+                                
+                            </div>
+                        </div>
+                    </div> 
                 </div>
             </div>
         </ons-scroller>

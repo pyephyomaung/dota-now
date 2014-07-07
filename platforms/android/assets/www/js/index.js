@@ -124,12 +124,6 @@ app.controller('Page_Match_LineupsCtrl', function($scope, Data) {
             $scope.direPicksBans = _.sortBy(_.filter(value.result.picks_bans, {team: 1}), 'order');
         }
     });
-
-    $scope.photos = [
-    {id: 'p1', 'title': 'A nice day!', src: "http://lorempixel.com/300/400/"},
-    {id: 'p2', 'title': 'Puh!', src: "http://lorempixel.com/300/400/sports"},
-    {id: 'p3', 'title': 'What a club!', src: "http://lorempixel.com/300/400/nightlife"}
-]; 
 });
 
 function getTournments() {

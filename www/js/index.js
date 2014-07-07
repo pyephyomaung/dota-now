@@ -41,6 +41,7 @@ app.factory('Data', function() {
     Data.getMatchDetailsUrl = function (matchId) { return Data.URL_GET_MATCH_DETAILS + matchId; };
     Data.getHeroImageUrl = function (heroId) { return Data.URL_HERO_IMAGE + _.find(Data.heroes, {id: heroId}).name + '_eg.png'; };
     Data.getItemImageUrl = function (itemId) { return Data.URL_ITEM_IMAGE + _.find(Data.items, {id: itemId}).name + '_eg.png'; };
+    Data.getHeroName = function (heroId) { return _.find(Data.heroes, {id: heroId}).localized_name; };
 
     Data.isRadiant = function (player) { return (player != null && player.player_slot <= 4); };
 
@@ -101,6 +102,7 @@ app.controller('Page_Match_StatsCtrl', function($scope, $http, Data) {
     $scope.mods = Data.mods;
     $scope.toHHmmss = toHHmmss;
     $scope.getHeroImageUrl = Data.getHeroImageUrl;
+    $scope.getHeroName = Data.getHeroName;
     $scope.$watch(function () { return Data.matchDetails; }, function (value) {
         $scope.matchDetails = value;
         if (value != null) {
@@ -124,12 +126,6 @@ app.controller('Page_Match_LineupsCtrl', function($scope, Data) {
             $scope.direPicksBans = _.sortBy(_.filter(value.result.picks_bans, {team: 1}), 'order');
         }
     });
-
-    $scope.photos = [
-    {id: 'p1', 'title': 'A nice day!', src: "http://lorempixel.com/300/400/"},
-    {id: 'p2', 'title': 'Puh!', src: "http://lorempixel.com/300/400/sports"},
-    {id: 'p3', 'title': 'What a club!', src: "http://lorempixel.com/300/400/nightlife"}
-]; 
 });
 
 function getTournments() {
