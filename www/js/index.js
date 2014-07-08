@@ -33,11 +33,13 @@ app.factory('Data', function() {
 
     // constants
     Data.STEAM_API_KEY = '59075AC07E0A6BC19847673DBC2B2802';
+    Data.URL_GET_LEAGUE_LISTING = 'http://www.corsproxy.com/api.steampowered.com/IDOTA2Match_570/GetLeagueListing/V001/?key=' + Data.STEAM_API_KEY;
     Data.URL_GET_MATCH_DETAILS = 'http://www.corsproxy.com/api.steampowered.com/IDOTA2Match_570/GetMatchDetails/V001/?key=' + Data.STEAM_API_KEY + '&match_id=';
     Data.URL_HERO_IMAGE = 'http://media.steampowered.com/apps/dota2/images/heroes/';
     Data.URL_ITEM_IMAGE = 'http://media.steampowered.com/apps/dota2/images/items/';
     
     // url getters
+    Data.getLeagueListing = function () { return Data.URL_GET_LEAGUE_LISTING }
     Data.getMatchDetailsUrl = function (matchId) { return Data.URL_GET_MATCH_DETAILS + matchId; };
     Data.getHeroImageUrl = function (heroId) { return Data.URL_HERO_IMAGE + _.find(Data.heroes, {id: heroId}).name + '_eg.png'; };
     Data.getItemImageUrl = function (itemId) { return Data.URL_ITEM_IMAGE + _.find(Data.items, {id: itemId}).name + '_eg.png'; };
@@ -55,8 +57,17 @@ app.factory('Data', function() {
     return Data;
 });
 
-app.controller('Page1Ctrl', function($scope, Data) {
-    $scope.tournments = Data.tournments;
+app.controller('Page1Ctrl', function($scope, $http, Data) {
+    $scope.isLoading = true;
+    var url = Data.getLeagueListing();
+    $http.get(url).
+        success(function(data, status, headers, config) {
+            $scope.leagues = data.result.leagues;
+            $scope.isLoading = false;
+        }).
+        error(function(data, status, headers, config) {
+            alert("Error getting leagues listing");
+        });
 
     $scope.next = function(index) {
         Data.tournmentIndex = index;

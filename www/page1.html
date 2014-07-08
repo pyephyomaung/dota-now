@@ -1,9 +1,17 @@
 <ons-page class="center">
     <div ng-controller="Page1Ctrl">
-        <ons-list>
-            <ons-list-item ng-repeat="tournment in tournments" ng-click="next($index)">
-            	<img src="{{tournment.logo}}" style="width: 50px; vertical-align: middle"/>
-            	<span style="vertical-align: middle">{{tournment.title}}</span>
+    	<div ng-show="isLoading">
+            <div class="bubblingG">
+                <span id="page1_bubblingG_1"></span>
+                <span id="page1_bubblingG_2"></span>
+                <span id="page1_bubblingG_3"></span>
+            </div>
+        </div>
+        <ons-list  ng-hide="isLoading">
+            <ons-list-item ng-repeat="league in leagues" ng-click="next($index)">
+            	<span style="vertical-align: middle">
+            		{{league.name}}
+            	</span>
         	</ons-list-item>
         </ons-list>
     </div>
