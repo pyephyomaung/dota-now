@@ -22,7 +22,6 @@ document.addEventListener('deviceready', function() {
  
 app.factory('Data', function() {
     var Data = {};
-    Data.tournments = getTournments();
     Data.abilities = null;
     Data.heroes = null;
     Data.items = null;
@@ -34,13 +33,15 @@ app.factory('Data', function() {
     // constants
     Data.STEAM_API_KEY = '59075AC07E0A6BC19847673DBC2B2802';
     Data.URL_GET_LEAGUE_LISTING = 'http://www.corsproxy.com/api.steampowered.com/IDOTA2Match_570/GetLeagueListing/V001/?key=' + Data.STEAM_API_KEY;
-    Data.URL_GET_MATCH_HISTORY = 'http://www.corsproxy.com/api.steampowered.com/IDOTA2Match_570/GetMatchHistory/V001/?key=' + Data.STEAM_API_KEY + '&league_id=';
+    Data.URL_GET_LIVE_LEAGUE_GAMES = 'http://www.corsproxy.com/api.steampowered.com/IDOTA2Match_570/GetLiveLeagueGames/V001/?key=' + Data.STEAM_API_KEY;
+    Data.URL_GET_MATCH_HISTORY = 'http://www.corsproxy.com/api.steampowered.com/IDOTA2Match_570/GetMatchHistory/V001/?key=' + Data.STEAM_API_KEY + '&tournament_games_only=true&league_id=';
     Data.URL_GET_MATCH_DETAILS = 'http://www.corsproxy.com/api.steampowered.com/IDOTA2Match_570/GetMatchDetails/V001/?key=' + Data.STEAM_API_KEY + '&match_id=';
     Data.URL_HERO_IMAGE = 'http://media.steampowered.com/apps/dota2/images/heroes/';
     Data.URL_ITEM_IMAGE = 'http://media.steampowered.com/apps/dota2/images/items/';
     
     // url getters
-    Data.getLeagueListingUrl = function () { return Data.URL_GET_LEAGUE_LISTING }
+    Data.getLeagueListingUrl = function () { return Data.URL_GET_LEAGUE_LISTING; };
+    Data.getLiveLeagueGamesUrl = function () { return Data.URL_GET_LIVE_LEAGUE_GAMES; };
     Data.getMatchHistoryUrl = function (leagueId) { return Data.URL_GET_MATCH_HISTORY + leagueId; };
     Data.getMatchDetailsUrl = function (matchId) { return Data.URL_GET_MATCH_DETAILS + matchId; };
     Data.getHeroImageUrl = function (heroId) { return Data.URL_HERO_IMAGE + _.find(Data.heroes, {id: heroId}).name + '_eg.png'; };
@@ -61,6 +62,7 @@ app.factory('Data', function() {
 
 app.controller('Page1Ctrl', function($scope, $http, Data) {
     $scope.isLoading = true;
+    $scope.inputMatchId = '117762656';
     var url = Data.getLeagueListingUrl();
     $http.get(url).
         success(function(data, status, headers, config) {
@@ -79,6 +81,11 @@ app.controller('Page1Ctrl', function($scope, $http, Data) {
         } else {
             alert('League not found');
         }
+    };
+
+    $scope.goToMatch = function() {
+        Data.matchId = $scope.inputMatchId;
+        $scope.ons.navigator.pushPage('page_match.html');
     };
 });
 
@@ -104,7 +111,6 @@ app.controller('Page_MarchesCtrl', function($scope, $http, Data) {
 app.controller('Page_MatchCtrl', function($scope, $http, Data) {
     $scope.isLoading = true;
 
-    //var matchId = '117762656';
     var matchId = Data.matchId;
     var url = Data.getMatchDetailsUrl(matchId);
     Data.matchDetails = null;
@@ -151,25 +157,6 @@ app.controller('Page_Match_LineupsCtrl', function($scope, Data) {
         }
     });
 });
-
-function getTournments() {
-    var rtn = [];
-    rtn.push({ 
-        title: 'The International 4',
-        logo: 'img/ti4/alliance.png',
-        teams : [
-            [
-                {name: "Alliance", flag: 'img/ti4/alliance.png', lineups: ['loda','s4','AdmiralBulldog','Akke', 'EGM']}, 
-                {name: "Titan", flag: 'img/ti4/titan.png', lineups: ['Kyxy','Yamateh','Ohaiyo','Net', 'Xtinct']}
-            ],
-            [
-                {name: "Titan", flag: 'img/ti4/titan.png', lineups: ['Kyxy','Yamateh','Ohaiyo','Net', 'Xtinct']},
-                {name: "Alliance", flag: 'img/ti4/alliance.png', lineups: ['loda','s4','AdmiralBulldog','Akke', 'EGM']}
-            ]
-        ]
-    });
-    return rtn;
-}
 
 function toHHmmss(minute_num) {
     var hours   = Math.floor(minute_num / 3600);

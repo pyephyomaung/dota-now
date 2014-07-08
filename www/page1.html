@@ -9,6 +9,20 @@
 	            </div>
 	        </div>
 	        <ons-list  ng-hide="isLoading">
+	        	<ons-list-item>
+	        		<div style="display: table; width: 100%">
+	        			<span style="display: table-cell; width: 100%; padding: 0px 5px;">
+	        				<ons-text-input 
+			        			ng-model="inputMatchId"
+		            			placeholder="Enter match id"
+		            			style="width: 100%; vertical-align: middle">
+		            		</ons-text-input>
+	        			</span>
+	        			<ons-button style="display: table-cell; vertical-align: middle" ng-click="goToMatch()">
+		            		Go
+		        		</ons-button>
+	        		</div>
+	        	</ons-list-item>
 	            <ons-list-item ng-repeat="league in leagues" ng-click="next($index)">
 	            	<span style="vertical-align: middle">
 	            		{{league.name}}
