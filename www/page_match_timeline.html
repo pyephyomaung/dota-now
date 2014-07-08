@@ -1,17 +1,4 @@
 <ons-navigator title="Timeline" hide-toolbar="true">
-	<div ng-controller="Page_Match_LineupsCtrl">
-		<div ng-model="match">
-			<div style="display: inline-block; width: 45%; text-align: left">
-            	<img src="{{match[0].flag}}" style="width: 50px; vertical-align: middle"/>
-            	<span style="vertical-align: middle">{{match[0].name}}</span>
-            </div>
-            <div style="display: inline-block; width: 5%; text-align: center">
-            	<span style="vertical-align: middle">vs</span>
-            </div>
-           	<div style="display: inline-block; width: 45%; text-align: right">
-            	<span style="vertical-align: middle">{{match[1].name}}</span>
-                <img src="{{match[1].flag}}" style="width: 50px; vertical-align: middle"/>
-            </div>
-        </div>
+	<div ng-controller="Page_Match_TimelineCtrl">
     </div>
 </ons-navigator>

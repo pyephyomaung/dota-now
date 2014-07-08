@@ -1,21 +1,20 @@
 <ons-page class="center">
     <div ng-controller="Page_MarchesCtrl">
-         <ons-list>
-            <ons-list-item ng-repeat="team in teams" ng-click="next($index)">
-            	<div>
-            		<div style="display: inline-block; width: 45%; text-align: left">
-            			<img src="{{team[0].flag}}" style="width: 50px; vertical-align: middle"/>
-            			<span style="vertical-align: middle">{{team[0].name}}</span>
-            		</div>
-            		<div style="display: inline-block; width: 5%; text-align: center">
-            			<span style="vertical-align: middle">vs</span>
-            		</div>
-            		<div style="display: inline-block; width: 45%; text-align: right">
-            			<span style="vertical-align: middle">{{team[1].name}}</span>
-            			<img src="{{team[1].flag}}" style="width: 50px; vertical-align: middle"/>
-            		</div>
-            	</div>
-            </ons-list-item>
-        </ons-list>
+        <ons-scroller>
+            <div ng-show="isLoading">
+                <div class="bubblingG">
+                    <span id="matches_bubblingG_1"></span>
+                    <span id="matches_bubblingG_2"></span>
+                    <span id="matches_bubblingG_3"></span>
+                </div>
+            </div>
+             <ons-list ng-hide="isLoading">
+                <ons-list-item ng-repeat="match in matchHistory.matches" ng-click="next($index)">
+                    <div>
+                        Match id: {{match.match_id}}
+                    </div>
+                </ons-list-item>
+            </ons-list>
+        </ons-scroller>
     </div>
 </ons-page>

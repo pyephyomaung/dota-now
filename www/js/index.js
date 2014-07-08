@@ -34,12 +34,14 @@ app.factory('Data', function() {
     // constants
     Data.STEAM_API_KEY = '59075AC07E0A6BC19847673DBC2B2802';
     Data.URL_GET_LEAGUE_LISTING = 'http://www.corsproxy.com/api.steampowered.com/IDOTA2Match_570/GetLeagueListing/V001/?key=' + Data.STEAM_API_KEY;
+    Data.URL_GET_MATCH_HISTORY = 'http://www.corsproxy.com/api.steampowered.com/IDOTA2Match_570/GetMatchHistory/V001/?key=' + Data.STEAM_API_KEY + '&league_id=';
     Data.URL_GET_MATCH_DETAILS = 'http://www.corsproxy.com/api.steampowered.com/IDOTA2Match_570/GetMatchDetails/V001/?key=' + Data.STEAM_API_KEY + '&match_id=';
     Data.URL_HERO_IMAGE = 'http://media.steampowered.com/apps/dota2/images/heroes/';
     Data.URL_ITEM_IMAGE = 'http://media.steampowered.com/apps/dota2/images/items/';
     
     // url getters
-    Data.getLeagueListing = function () { return Data.URL_GET_LEAGUE_LISTING }
+    Data.getLeagueListingUrl = function () { return Data.URL_GET_LEAGUE_LISTING }
+    Data.getMatchHistoryUrl = function (leagueId) { return Data.URL_GET_MATCH_HISTORY + leagueId; };
     Data.getMatchDetailsUrl = function (matchId) { return Data.URL_GET_MATCH_DETAILS + matchId; };
     Data.getHeroImageUrl = function (heroId) { return Data.URL_HERO_IMAGE + _.find(Data.heroes, {id: heroId}).name + '_eg.png'; };
     Data.getItemImageUrl = function (itemId) { return Data.URL_ITEM_IMAGE + _.find(Data.items, {id: itemId}).name + '_eg.png'; };
@@ -59,7 +61,7 @@ app.factory('Data', function() {
 
 app.controller('Page1Ctrl', function($scope, $http, Data) {
     $scope.isLoading = true;
-    var url = Data.getLeagueListing();
+    var url = Data.getLeagueListingUrl();
     $http.get(url).
         success(function(data, status, headers, config) {
             $scope.leagues = data.result.leagues;
@@ -70,18 +72,31 @@ app.controller('Page1Ctrl', function($scope, $http, Data) {
         });
 
     $scope.next = function(index) {
-        Data.tournmentIndex = index;
-        var t = Data.tournments[index];
-        $scope.ons.navigator.pushPage('page_marches.html', {title: t.title});
+        var selectedLeague = $scope.leagues[index];
+        if (selectedLeague != null) {
+            Data.leagueId = selectedLeague.league_id;
+            $scope.ons.navigator.pushPage('page_marches.html', {title: selectedLeague.name});
+        } else {
+            alert('League not found');
+        }
     };
 });
 
-app.controller('Page_MarchesCtrl', function($scope, Data) {
-    $scope.teams = Data.tournments[Data.tournmentIndex].teams;
+app.controller('Page_MarchesCtrl', function($scope, $http, Data) {
+    $scope.isLoading = true;
+    var url = Data.getMatchHistoryUrl(Data.leagueId);
+    $http.get(url).
+        success(function(data, status, headers, config) {
+            $scope.matchHistory = data.result;
+            $scope.isLoading = false;
+        }).
+        error(function(data, status, headers, config) {
+            alert("Error getting leagues listing");
+        });
 
     $scope.next = function(index) {
-        Data.matchIndex = index;
-        var t = Data.tournments[Data.tournmentIndex].teams[index];
+        var match = $scope.matchHistory.matches[index];
+        Data.matchId = match.match_id;
         $scope.ons.navigator.pushPage('page_match.html');
     };
 });
@@ -89,7 +104,8 @@ app.controller('Page_MarchesCtrl', function($scope, Data) {
 app.controller('Page_MatchCtrl', function($scope, $http, Data) {
     $scope.isLoading = true;
 
-    var matchId = '117762656';
+    //var matchId = '117762656';
+    var matchId = Data.matchId;
     var url = Data.getMatchDetailsUrl(matchId);
     Data.matchDetails = null;
     $http.get(url).
@@ -104,11 +120,9 @@ app.controller('Page_MatchCtrl', function($scope, $http, Data) {
 });
 
 app.controller('Page_Match_TimelineCtrl', function($scope, Data) {
-    $scope.match = Data.tournments[Data.tournmentIndex].teams[Data.matchIndex];
 });
 
 app.controller('Page_Match_StatsCtrl', function($scope, $http, Data) {
-    $scope.match = Data.tournments[Data.tournmentIndex].teams[Data.matchIndex];
     $scope.lobbies = Data.lobbies;
     $scope.mods = Data.mods;
     $scope.toHHmmss = toHHmmss;
@@ -124,7 +138,6 @@ app.controller('Page_Match_StatsCtrl', function($scope, $http, Data) {
 });
 
 app.controller('Page_Match_LineupsCtrl', function($scope, Data) {
-    $scope.match = Data.tournments[Data.tournmentIndex].teams[Data.matchIndex];
     $scope.getHeroImageUrl = Data.getHeroImageUrl;
     $scope.getItemImageUrl = Data.getItemImageUrl;
     $scope.isRadiant = Data.isRadiant;

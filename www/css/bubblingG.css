@@ -25,7 +25,7 @@ border-radius: 50px;
 animation: bubblingG 0.5s infinite alternate;
 }
 
-#bubblingG_1, #page1_bubblingG_1 {
+#bubblingG_1, #page1_bubblingG_1, #matches_bubblingG_1 {
 -moz-animation-delay: 0s;
 -webkit-animation-delay: 0s;
 -ms-animation-delay: 0s;
@@ -33,7 +33,7 @@ animation: bubblingG 0.5s infinite alternate;
 animation-delay: 0s;
 }
 
-#bubblingG_2, #page1_bubblingG_2 {
+#bubblingG_2, #page1_bubblingG_2, #matches_bubblingG_2 {
 -moz-animation-delay: 0.15s;
 -webkit-animation-delay: 0.15s;
 -ms-animation-delay: 0.15s;
@@ -41,7 +41,7 @@ animation-delay: 0s;
 animation-delay: 0.15s;
 }
 
-#bubblingG_3, #page1_bubblingG_3 {
+#bubblingG_3, #page1_bubblingG_3, #matches_bubblingG_3 {
 -moz-animation-delay: 0.3s;
 -webkit-animation-delay: 0.3s;
 -ms-animation-delay: 0.3s;
