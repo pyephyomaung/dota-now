@@ -34,10 +34,11 @@ app.factory('Data', function() {
     Data.STEAM_API_KEY = '59075AC07E0A6BC19847673DBC2B2802';
     Data.URL_GET_LEAGUE_LISTING = 'http://www.corsproxy.com/api.steampowered.com/IDOTA2Match_570/GetLeagueListing/V001/?key=' + Data.STEAM_API_KEY;
     Data.URL_GET_LIVE_LEAGUE_GAMES = 'http://www.corsproxy.com/api.steampowered.com/IDOTA2Match_570/GetLiveLeagueGames/V001/?key=' + Data.STEAM_API_KEY;
-    Data.URL_GET_MATCH_HISTORY = 'http://www.corsproxy.com/api.steampowered.com/IDOTA2Match_570/GetMatchHistory/V001/?key=' + Data.STEAM_API_KEY + '&tournament_games_only=true&league_id=';
+    Data.URL_GET_MATCH_HISTORY = 'http://www.corsproxy.com/api.steampowered.com/IDOTA2Match_570/GetMatchHistory/V001/?key=' + Data.STEAM_API_KEY + '&min_players=10&tournament_games_only=true&league_id=';
     Data.URL_GET_MATCH_DETAILS = 'http://www.corsproxy.com/api.steampowered.com/IDOTA2Match_570/GetMatchDetails/V001/?key=' + Data.STEAM_API_KEY + '&match_id=';
     Data.URL_HERO_IMAGE = 'http://media.steampowered.com/apps/dota2/images/heroes/';
     Data.URL_ITEM_IMAGE = 'http://media.steampowered.com/apps/dota2/images/items/';
+    Data.URL_ABILITY_IMAGE = 'http://media.steampowered.com/apps/dota2/images/abilities/';
     
     // url getters
     Data.getLeagueListingUrl = function () { return Data.URL_GET_LEAGUE_LISTING; };
@@ -46,6 +47,11 @@ app.factory('Data', function() {
     Data.getMatchDetailsUrl = function (matchId) { return Data.URL_GET_MATCH_DETAILS + matchId; };
     Data.getHeroImageUrl = function (heroId) { return Data.URL_HERO_IMAGE + _.find(Data.heroes, {id: heroId}).name + '_eg.png'; };
     Data.getItemImageUrl = function (itemId) { return Data.URL_ITEM_IMAGE + _.find(Data.items, {id: itemId}).name + '_eg.png'; };
+    Data.getAbilityImageUrl = function (abilityId) { 
+        var ability = _.find(Data.abilities, {id: abilityId + ''});
+        if (ability != null && ability.name == 'stats') return 'img/stats.png';
+        else return Data.URL_ABILITY_IMAGE + ability.name + '_lg.png'; 
+    };
     Data.getHeroName = function (heroId) { return _.find(Data.heroes, {id: heroId}).localized_name; };
 
     Data.isRadiant = function (player) { return (player != null && player.player_slot <= 4); };
@@ -71,7 +77,7 @@ app.controller('Page1Ctrl', function($scope, $http, Data) {
     var url = Data.getLeagueListingUrl();
     $http.get(url).
         success(function(data, status, headers, config) {
-            $scope.leagues = data.result.leagues;
+            $scope.leagues = _.filter(data.result.leagues, {"leagueid": 600});  // TI 4 for now
             $scope.isLoading = false;
         }).
         error(function(data, status, headers, config) {
@@ -151,10 +157,13 @@ app.controller('Page_Match_StatsCtrl', function($scope, $http, Data) {
 app.controller('Page_Match_LineupsCtrl', function($scope, Data) {
     $scope.getHeroImageUrl = Data.getHeroImageUrl;
     $scope.getItemImageUrl = Data.getItemImageUrl;
+    $scope.getAbilityImageUrl = Data.getAbilityImageUrl;
     $scope.isRadiant = Data.isRadiant;
+    $scope.toHHmmss = toHHmmss;
     $scope.$watch(function () { return Data.matchDetails; }, function (value) {
         $scope.matchDetails = value.result;
         if (value != null) {
+            $scope.players = value.result.players;
             $scope.radiantPlayers = _.filter(value.result.players, function (x) {return Data.isRadiant(x)});
             $scope.direPlayers = _.filter(value.result.players, function (x) {return !Data.isRadiant(x)});
             $scope.radiantPicksBans = _.sortBy(_.filter(value.result.picks_bans, {team: 0}), 'order');
