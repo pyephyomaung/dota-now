@@ -1,16 +1,16 @@
 <ons-navigator title="Lineups" hide-toolbar="true">
     <div ng-controller="Page_Match_LineupsCtrl">
         <ons-scroller>
-            <div ng-model="match">
+            <div ng-model="matchDetails">
                 <div style="display: inline-block; width: 45%; text-align: left">
                     <img src="{{match[0].flag}}" style="width: 50px; vertical-align: middle"/>
-                    <span style="vertical-align: middle">{{match[0].name}}</span>
+                    <span style="vertical-align: middle">{{matchDetails.radiant_name}}</span>
                 </div>
                 <div style="display: inline-block; width: 5%; text-align: center">
                     <span style="vertical-align: middle">vs</span>
                 </div>
                 <div style="display: inline-block; width: 45%; text-align: right">
-                    <span style="vertical-align: middle">{{match[1].name}}</span>
+                    <span style="vertical-align: middle">{{matchDetails.dire_name}}</span>
                     <img src="{{match[1].flag}}" style="width: 50px; vertical-align: middle"/>
                 </div>
             </div>

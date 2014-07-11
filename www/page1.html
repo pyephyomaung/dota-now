@@ -13,7 +13,7 @@
 	        		<div style="display: table; width: 100%">
 	        			<span style="display: table-cell; width: 100%; padding: 0px 5px;">
 	        				<ons-text-input 
-			        			ng-model="inputMatchId"
+			        			ng-model="inputMatch.inputMatchId"
 		            			placeholder="Enter match id"
 		            			style="width: 100%; vertical-align: middle">
 		            		</ons-text-input>
@@ -25,7 +25,7 @@
 	        	</ons-list-item>
 	            <ons-list-item ng-repeat="league in leagues" ng-click="next($index)">
 	            	<span style="vertical-align: middle">
-	            		{{league.name}}
+	            		{{getLeagueName(league.name)}}
 	            	</span>
 	        	</ons-list-item>
 	        </ons-list>

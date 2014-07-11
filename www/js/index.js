@@ -62,7 +62,12 @@ app.factory('Data', function() {
 
 app.controller('Page1Ctrl', function($scope, $http, Data) {
     $scope.isLoading = true;
-    $scope.inputMatchId = '117762656';
+    $scope.inputMatch = { inputMatchId: '683689782' };
+    // $scope.inputMatch = { inputMatchId: '117762656' };
+    $scope.getLeagueName = function (leagueName) {
+        return leagueName.replace(/#DOTA_Item_/g, "").replace(/_/g, " ");
+    };
+
     var url = Data.getLeagueListingUrl();
     $http.get(url).
         success(function(data, status, headers, config) {
@@ -84,7 +89,7 @@ app.controller('Page1Ctrl', function($scope, $http, Data) {
     };
 
     $scope.goToMatch = function() {
-        Data.matchId = $scope.inputMatchId;
+        Data.matchId = $scope.inputMatch.inputMatchId;
         $scope.ons.navigator.pushPage('page_match.html');
     };
 });
@@ -148,7 +153,7 @@ app.controller('Page_Match_LineupsCtrl', function($scope, Data) {
     $scope.getItemImageUrl = Data.getItemImageUrl;
     $scope.isRadiant = Data.isRadiant;
     $scope.$watch(function () { return Data.matchDetails; }, function (value) {
-        $scope.matchDetails = value;
+        $scope.matchDetails = value.result;
         if (value != null) {
             $scope.radiantPlayers = _.filter(value.result.players, function (x) {return Data.isRadiant(x)});
             $scope.direPlayers = _.filter(value.result.players, function (x) {return !Data.isRadiant(x)});
