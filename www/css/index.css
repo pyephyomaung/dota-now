@@ -172,3 +172,15 @@ h1 {
     margin-right: 5px;
     margin-bottom:10px;
 }
+
+
+table.gameInfo {
+    margin: 0 auto;
+}
+
+table.gameInfo tr td {
+    text-align: left;
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+}

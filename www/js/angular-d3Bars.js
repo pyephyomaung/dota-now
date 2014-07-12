@@ -7,7 +7,8 @@ d3Angular.directive('d3Bars', ['$window', '$timeout',
                     var renderTimeout;
                     var margin = parseInt(attrs.margin) || 5,
                         barHeight = parseInt(attrs.barHeight) || 20,
-                        barPadding = parseInt(attrs.barPadding) || 5,
+                        barPadding = parseInt(attrs.barPadding) || 15,
+                        delayTransition = parseInt(attrs.delayTransition) || 0,
                         bindProperty = attrs.bindProperty,
                         rightToLeft = attrs.rightToLeft != undefined && attrs.rightToLeft == "true";
 
@@ -74,6 +75,7 @@ d3Angular.directive('d3Bars', ['$window', '$timeout',
                                     .attr('y', function(d,i) { return i * (barHeight + barPadding); })
                                     .attr('fill', function(d) { return color(d[bindProperty]); })
                                     .transition()
+                                    .delay(delayTransition)
                                     .duration(1000)
                                     .attr('width', function(d) { return xScale(d[bindProperty]); })
                                     .attr('x', function(d) { return width - xScale(d[bindProperty]); })
@@ -82,9 +84,10 @@ d3Angular.directive('d3Bars', ['$window', '$timeout',
                                     .data(data)
                                     .enter()
                                     .append('text')
+                                    .style('font-size', "0.75em")
                                     .attr('fill', 'black')
-                                    .attr('y', function(d,i) { return i * (barHeight + barPadding) + 15; })
-                                    .attr('x', width - 30)
+                                    .attr('y', function(d,i) { return (i+1) * (barHeight + barPadding) - 5; })
+                                    .attr('x', function(d) { return width + labelImageWidth - d[bindProperty].toString().length*6;})    // 6 is char width
                                     .text(function(d) { return d[bindProperty]; });
                             } else {
                                 svg.selectAll('rect')
@@ -108,6 +111,7 @@ d3Angular.directive('d3Bars', ['$window', '$timeout',
                                     .attr('y', function(d,i) { return i * (barHeight + barPadding); })
                                     .attr('fill', function(d) { return color(d[bindProperty]); })
                                     .transition()
+                                    .delay(delayTransition)
                                     .duration(1000)
                                     .attr('width', function(d) { return xScale(d[bindProperty]); });
                             
@@ -115,9 +119,10 @@ d3Angular.directive('d3Bars', ['$window', '$timeout',
                                     .data(data)
                                     .enter()
                                     .append('text')
+                                    .style('font-size', "0.75em")
                                     .attr('fill', 'black')
-                                    .attr('y', function(d,i) { return i * (barHeight + barPadding) + 15; })
-                                    .attr('x', Math.round(margin/2) + labelImageWidth + 5)
+                                    .attr('y', function(d,i) { return (i+1) * (barHeight + barPadding) - 5; })
+                                    .attr('x', Math.round(margin/2))
                                     .text(function(d) { return d[bindProperty]; });
                             }
                         }, 200);

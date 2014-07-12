@@ -1,6 +1,6 @@
 <ons-page class="center" ng-controller="Page_MatchCtrl">
     <div>
-        <div ng-show="isLoading">
+        <div ng-show="isLoading" style="margin-top: 50%">
             <div class="bubblingG">
                 <span id="bubblingG_1"></span>
                 <span id="bubblingG_2"></span>
@@ -10,12 +10,13 @@
         <div ng-hide="isLoading">
             <ons-tabbar>
                 <ons-tabbar-item 
+                    ng-hide="true"
                     label="Timeline"
-                    page="page_match_timeline.html"
-                    active="true"></ons-tabbar-item> 
+                    page="page_match_timeline.html"></ons-tabbar-item> 
                 <ons-tabbar-item 
                     label="Stats"      
-                    page="page_match_stats.html"></ons-tabbar-item> 
+                    page="page_match_stats.html"
+                    active="true"></ons-tabbar-item> 
                 <ons-tabbar-item 
                     label="Lineups"
                     page="page_match_lineups.html"></ons-tabbar-item> 

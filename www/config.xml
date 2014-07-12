@@ -2,10 +2,10 @@
 <widget id="com.seafood.dotanow" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
     <name>Dota Now</name>
     <description>
-        Hello World sample application that responds to the deviceready event.
+        App to track dota 2 tournments
     </description>
-    <author email="support@phonegap.com" href="http://phonegap.com">
-        PhoneGap Team
+    <author email="seafood314@gmail.com" href="http://pyephyo.wordpress.com">
+        Seafood Team
     </author>
     <preference name="permissions" value="none" />
     <preference name="phonegap-version" value="3.4.0" />

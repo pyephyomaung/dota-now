@@ -9,6 +9,7 @@ d3Angular.directive('d3BarsThree', ['$window', '$timeout',
                         barHeight = parseInt(attrs.barHeight) || 6,
                         barPadding = parseInt(attrs.barPadding) || 15,
                         rowHeight = parseInt(attrs.rowHeight) || 20,
+                        delayTransition = parseInt(attrs.delayTransition) || 0,
                         bindProperty1 = attrs.bindProperty1,
                         bindProperty2 = attrs.bindProperty2,
                         bindProperty3 = attrs.bindProperty3,
@@ -100,18 +101,22 @@ d3Angular.directive('d3BarsThree', ['$window', '$timeout',
                                     .attr('y', function(d,i) { return (d.index * (rowHeight + barPadding)) + d.dy; })
                                     .attr('fill', function(d) { return d.color(d.value[d.key]); })
                                     .transition()
+                                    .delay(delayTransition)
                                     .duration(1000)
                                     .attr('width', function(d) { return d.xScale(d.value[d.key]); })
                                     .attr('x', function(d) { return width - d.xScale(d.value[d.key]); });
+
+                                var kda = function(d) { return d[bindProperty1] + ' / ' + d[bindProperty2] + ' / ' + d[bindProperty3]; };
                             
-                                 svg.selectAll('text')
+                                svg.selectAll('text')
                                     .data(data)
                                     .enter()
                                     .append('text')
+                                    .style('font-size', "0.75em")
                                     .attr('fill', 'black')
                                     .attr('y', function(d,i) { return (i+1) * (rowHeight + barPadding) - 5; })
-                                    .attr('x', width-15)
-                                    .text(function(d) { return d[bindProperty1] + ' / ' + d[bindProperty2] + ' / ' + d[bindProperty3]; });
+                                    .attr('x', function(d) { return width + labelImageWidth - kda(d).length*6 + 15;})    // 6 is char width plus offset
+                                    .text(function(d) { return kda(d); });
                             } else {
                                 svg.selectAll('rect')
                                     .data(data)
@@ -134,6 +139,7 @@ d3Angular.directive('d3BarsThree', ['$window', '$timeout',
                                     .attr('y', function(d,i) { return (d.index * (rowHeight + barPadding)) + d.dy; })
                                     .attr('fill', function(d) { return d.color(d.value[d.key]); })
                                     .transition()
+                                    .delay(delayTransition)
                                     .duration(1000)
                                     .attr('width', function(d) { return d.xScale(d.value[d.key]); });
                             
@@ -141,6 +147,7 @@ d3Angular.directive('d3BarsThree', ['$window', '$timeout',
                                     .data(data)
                                     .enter()
                                     .append('text')
+                                    .style('font-size', "0.75em")
                                     .attr('fill', 'black')
                                     .attr('y', function(d,i) { return (i+1) * (rowHeight + barPadding) - 5; })
                                     .attr('x', Math.round(margin/2))

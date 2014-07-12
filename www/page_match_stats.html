@@ -4,30 +4,32 @@
             <div class="card">
                 <h3>Game info</h3>
                 <div>
-                    <div style="text-align: left">
-                        <div style="width: 35%; display: inline-block">Match id:</div>
-                        <div style="display: inline-block">{{matchDetails.result.match_id}}</div>
-                    </div>
-                    <div style="text-align: left">
-                        <div style="width: 35%; display: inline-block">Game mode:</div>
-                        <div style="display: inline-block">{{mods[matchDetails.result.game_mode].name}}</div>
-                    </div>
-                    <div style="text-align: left">
-                        <div style="width: 35%; display: inline-block">Start time:</div>
-                        <div style="display: inline-block">{{matchDetails.result.start_time * 1000 | date: 'medium'}}</div>
-                    </div>
-                    <div style="text-align: left">
-                        <div style="width: 35%; display: inline-block">Lobby type:</div>
-                        <div style="display: inline-block">{{lobbies[matchDetails.result.lobby_type].name}}</div>
-                    </div>
-                     <div style="text-align: left">
-                        <div style="width: 35%; display: inline-block">Duration:</div>
-                        <div style="display: inline-block">{{toHHmmss(matchDetails.result.duration)}}</div>
-                    </div>
-                    <div style="text-align: left">
-                        <div style="width: 35%; display: inline-block">First blood time:</div>
-                        <div style="display: inline-block">{{toHHmmss(matchDetails.result.first_blood_time)}}</div>
-                    </div>
+                    <table class="gameInfo">
+                        <tr>
+                            <td>Match id:</td>
+                            <td>{{matchDetails.result.match_id}}</td>
+                        </tr>
+                        <tr>
+                            <td>Game mode:</td>
+                            <td>{{mods[matchDetails.result.game_mode].name}}</td>
+                        </tr>
+                        <tr>
+                            <td>Start time:</td>
+                            <td>{{matchDetails.result.start_time * 1000 | date: 'medium'}}</td>
+                        </tr>
+                        <tr>
+                            <td>Lobby type:</td>
+                            <td>{{lobbies[matchDetails.result.lobby_type].name}}</td>
+                        </tr>
+                        <tr>
+                            <td>Duration:</td>
+                            <td>{{toHHmmss(matchDetails.result.duration)}}</td>
+                        </tr>
+                        <tr>
+                            <td>First blood time:</td>
+                            <td>{{toHHmmss(matchDetails.result.first_blood_time)}}</td>
+                        </tr>
+                    </table>
                 </div>
             </div>
 
@@ -60,14 +62,16 @@
                             d3-bars 
                             data="radiantPlayers" 
                             bind-property="xp_per_min"
-                            right-to-left="true">
+                            right-to-left="true"
+                            delay-transition="1000">
                         </div>
                     </div>
                     <div style="float: right; width: 49%">
                         <div 
                             d3-bars 
                             data="direPlayers" 
-                            bind-property="xp_per_min">
+                            bind-property="xp_per_min"
+                            delay-transition="1000">
                         </div>
                     </div>
                 </div>
@@ -83,7 +87,8 @@
                             bind-property1="kills"
                             bind-property2="deaths"
                             bind-property3="assists"
-                            right-to-left="true">
+                            right-to-left="true"
+                            delay-transition="2000">
                         </div>
                     </div>
                     <div style="float: right; width: 49%; color: black;">
@@ -92,7 +97,8 @@
                             data="direPlayers" 
                             bind-property1="kills"
                             bind-property2="deaths"
-                            bind-property3="assists">
+                            bind-property3="assists"
+                            delay-transition="2000">
                         </div>
                     </div>
                 </div>
@@ -106,14 +112,16 @@
                             d3-bars 
                             data="radiantPlayers" 
                             bind-property="last_hits"
-                            right-to-left="true">
+                            right-to-left="true"
+                            delay-transition="3000">
                         </div>
                     </div>
                     <div style="float: right; width: 49%">
                         <div 
                             d3-bars 
                             data="direPlayers" 
-                            bind-property="last_hits">
+                            bind-property="last_hits"
+                            delay-transition="3000">
                         </div>
                     </div>
                 </div>
@@ -127,14 +135,16 @@
                             d3-bars 
                             data="radiantPlayers" 
                             bind-property="denies"
-                            right-to-left="true">
+                            right-to-left="true"
+                            delay-transition="4000">
                         </div>
                     </div>
                     <div style="float: right; width: 49%">
                         <div 
                             d3-bars 
                             data="direPlayers" 
-                            bind-property="denies">
+                            bind-property="denies"
+                            delay-transition="4000">
                         </div>
                     </div>
                 </div>

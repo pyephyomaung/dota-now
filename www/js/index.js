@@ -32,13 +32,19 @@ app.factory('Data', function() {
 
     // constants
     Data.STEAM_API_KEY = '59075AC07E0A6BC19847673DBC2B2802';
-    Data.URL_GET_LEAGUE_LISTING = 'http://www.corsproxy.com/api.steampowered.com/IDOTA2Match_570/GetLeagueListing/V001/?key=' + Data.STEAM_API_KEY;
-    Data.URL_GET_LIVE_LEAGUE_GAMES = 'http://www.corsproxy.com/api.steampowered.com/IDOTA2Match_570/GetLiveLeagueGames/V001/?key=' + Data.STEAM_API_KEY;
-    Data.URL_GET_MATCH_HISTORY = 'http://www.corsproxy.com/api.steampowered.com/IDOTA2Match_570/GetMatchHistory/V001/?key=' + Data.STEAM_API_KEY + '&min_players=10&tournament_games_only=true&league_id=';
-    Data.URL_GET_MATCH_DETAILS = 'http://www.corsproxy.com/api.steampowered.com/IDOTA2Match_570/GetMatchDetails/V001/?key=' + Data.STEAM_API_KEY + '&match_id=';
+    // Data.URL_GET_LEAGUE_LISTING = 'https://api.steampowered.com/IDOTA2Match_570/GetLeagueListing/V001/?key=' + Data.STEAM_API_KEY;
+    // Data.URL_GET_LIVE_LEAGUE_GAMES = 'https://api.steampowered.com/IDOTA2Match_570/GetLiveLeagueGames/V001/?key=' + Data.STEAM_API_KEY;
+    // Data.URL_GET_MATCH_HISTORY = 'https://api.steampowered.com/IDOTA2Match_570/GetMatchHistory/V001/?key=' + Data.STEAM_API_KEY + '&tournament_games_only=1&league_id=';
+    // Data.URL_GET_MATCH_DETAILS = 'https://api.steampowered.com/IDOTA2Match_570/GetMatchDetails/V001/?key=' + Data.STEAM_API_KEY + '&match_id=';
     Data.URL_HERO_IMAGE = 'http://media.steampowered.com/apps/dota2/images/heroes/';
     Data.URL_ITEM_IMAGE = 'http://media.steampowered.com/apps/dota2/images/items/';
     Data.URL_ABILITY_IMAGE = 'http://media.steampowered.com/apps/dota2/images/abilities/';
+    
+    // in browser only
+    Data.URL_GET_LEAGUE_LISTING = 'http://www.corsproxy.com/api.steampowered.com/IDOTA2Match_570/GetLeagueListing/V001/?key=' + Data.STEAM_API_KEY;
+    Data.URL_GET_LIVE_LEAGUE_GAMES = 'http://www.corsproxy.com/api.steampowered.com/IDOTA2Match_570/GetLiveLeagueGames/V001/?key=' + Data.STEAM_API_KEY;
+    Data.URL_GET_MATCH_HISTORY = 'http://www.corsproxy.com/api.steampowered.com/IDOTA2Match_570/GetMatchHistory/V001/?key=' + Data.STEAM_API_KEY + '&tournament_games_only=1&league_id=';
+    Data.URL_GET_MATCH_DETAILS = 'http://www.corsproxy.com/api.steampowered.com/IDOTA2Match_570/GetMatchDetails/V001/?key=' + Data.STEAM_API_KEY + '&match_id=';
     
     // url getters
     Data.getLeagueListingUrl = function () { return Data.URL_GET_LEAGUE_LISTING; };
@@ -81,14 +87,14 @@ app.controller('Page1Ctrl', function($scope, $http, Data) {
             $scope.isLoading = false;
         }).
         error(function(data, status, headers, config) {
-            alert("Error getting leagues listing");
+            alert(status);
         });
 
     $scope.next = function(index) {
         var selectedLeague = $scope.leagues[index];
         if (selectedLeague != null) {
             Data.leagueId = selectedLeague.league_id;
-            $scope.ons.navigator.pushPage('page_marches.html', {title: selectedLeague.name});
+            $scope.ons.navigator.pushPage('page_marches.html', {title: $scope.getLeagueName(selectedLeague.name)});
         } else {
             alert('League not found');
         }
@@ -109,7 +115,7 @@ app.controller('Page_MarchesCtrl', function($scope, $http, Data) {
             $scope.isLoading = false;
         }).
         error(function(data, status, headers, config) {
-            alert("Error getting leagues listing");
+            alert(status);
         });
 
     $scope.next = function(index) {
