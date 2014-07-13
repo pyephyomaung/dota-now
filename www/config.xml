@@ -1,8 +1,13 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.seafood.dotanow" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+<widget 
+    id="com.seafood.dotanow" 
+    version="1.0.0" 
+    versionCode = "1"
+    xmlns="http://www.w3.org/ns/widgets" 
+    xmlns:gap="http://phonegap.com/ns/1.0">
     <name>Dota Now</name>
     <description>
-        App to track dota 2 tournments
+        Track dota 2 tournments
     </description>
     <author email="seafood314@gmail.com" href="http://pyephyo.wordpress.com">
         Seafood Team
@@ -42,6 +47,7 @@
     <gap:plugin name="org.apache.cordova.splashscreen" />
     <gap:plugin name="org.apache.cordova.vibration" />
     <icon src="www/icon.png" />
+    <icon gap:platform="android" height="96" width="96" src="www/icon-96.png" />
     <icon gap:platform="android" gap:qualifier="ldpi" src="www/res/icon/android/drawable-ldpi/appicon.png" />
     <icon gap:platform="android" gap:qualifier="mdpi" src="www/res/icon/android/drawable-mdpi/appicon.png" />
     <icon gap:platform="android" gap:qualifier="hdpi" src="www/res/icon/android/drawable-hdpi/appicon.png" />
